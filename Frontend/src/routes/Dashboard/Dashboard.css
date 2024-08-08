@@ -1,0 +1,23 @@
+.dashboard-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .dashboard-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .dashboard-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .dashboard-button:hover {
+    background-color: #0056b3;
+  }
+  
