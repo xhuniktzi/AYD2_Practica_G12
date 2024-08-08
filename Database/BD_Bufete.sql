@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS  tipo_documento(
 );
 
 CREATE TABLE IF NOT EXISTS  cliente(
-	CUI INTEGER PRIMARY KEY,
+	CUI BIGINT PRIMARY KEY,
     nombre VARCHAR(50),
     apellido VARCHAR(50),
     telefono INT,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS  cliente(
 
 CREATE TABLE IF NOT EXISTS  cita(
 	codigo_Cita INT PRIMARY KEY,
-    CUI_Cliente INTEGER,
+    CUI_Cliente BIGINT,
     fecha DATE,
     hora TIME,
     FOREIGN KEY (CUI_Cliente) REFERENCES  cliente(CUI)
@@ -52,3 +52,30 @@ CREATE TABLE IF NOT EXISTS  expediente(
     FOREIGN KEY (codigo_Documento) REFERENCES tipo_documento(codigo_Documento),
     FOREIGN KEY (codigo_Estado) REFERENCES estado(codigo_Estado)
 );
+-- Valores iniciales
+-- rol
+INSERT INTO rol (nombre) VALUES ('Administrador'), ('Abogado'), ('Secretario');
+
+-- genero
+INSERT INTO genero (nombre, abreviatura) VALUES ('Masculino', 'M'), ('Femenino', 'F');
+
+-- estado
+INSERT INTO estado (nombre) VALUES ('Pendiente'), ('En Proceso'), ('Finalizado');
+
+-- tipo_documento
+INSERT INTO tipo_documento (nombre_Tipo, extension) VALUES ('Informe', 'docx'), ('Contrato', 'pdf'), ('Carta', 'txt');
+
+-- cliente
+INSERT INTO cliente (CUI, nombre, apellido, telefono, correo, edad, codigo_Genero, fecha_Ingreso) VALUES
+(1234567890123, 'Juan', 'Perez', 5551234, 'juan.perez@example.com', 30, 1, '2023-01-01'),
+(2345678901234, 'Maria', 'Lopez', 5555678, 'maria.lopez@example.com', 25, 2, '2023-02-15');
+
+-- cita
+INSERT INTO cita (codigo_Cita, CUI_Cliente, fecha, hora) VALUES
+(1, 1234567890123, '2023-03-01', '10:00:00'),
+(2, 2345678901234, '2023-03-05', '14:00:00');
+
+-- expediente
+INSERT INTO expediente (no_Expediente, codigo_Documento, contenido_Documento, codigo_Estado) VALUES
+(1, 1, 'Contenido del informe de Juan Perez', 1),
+(2, 2, 'Contenido del contrato de Maria Lopez', 2);
