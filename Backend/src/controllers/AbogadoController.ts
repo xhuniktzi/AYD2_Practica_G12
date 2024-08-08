@@ -3,7 +3,7 @@ import { clients } from '../database/schema.js';
 import { MySql2Database } from 'drizzle-orm/mysql2';
 import { eq } from 'drizzle-orm';
 
-export default class clientsController {
+export default class abogadoController {
     db: MySql2Database;
     constructor(db: MySql2Database) {
         this.db = db;
