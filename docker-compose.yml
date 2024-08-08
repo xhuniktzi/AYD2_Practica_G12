@@ -1,26 +1,22 @@
-version: '3.9'
+version: "3.9"
 
 services:
-#   frontend:
-#     build:
-#       context: ./Frontend
-#     ports:
-#       - "3000:3000"
-#     depends_on:
-#       - backend
+  #   frontend:
+  #     build:
+  #       context: ./Frontend
+  #     ports:
+  #       - "3000:3000"
+  #     depends_on:
+  #       - backend
 
-#   backend:
-#     build:
-#       context: ./Backend
-#     ports:
-#       - "5000:5000"
-#     environment:
-#       - DB_HOST=db
-#       - DB_USER=root
-#       - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
-#       - DB_NAME=${MYSQL_DATABASE}
-#     depends_on:
-#       - db
+  backend:
+    build:
+      context: ./Backend
+    ports:
+      - "8000:8000"
+    env_file: ./Backend/.env
+    depends_on:
+      - db
 
   db:
     image: mysql:latest
@@ -43,6 +39,7 @@ volumes:
 
 networks:
   AyD2-Network:
-    external: true
+    external:
+      true
 
       # docker network create AyD2-Network
