@@ -52,7 +52,7 @@ export default class citaController {
      * hora: time
      */
     async citasPorCliente(req: Request, res: Response) {
-        const id = BigInt(req.params.id);
+        const id = req.params.id;
 
         const result = await db.select({
             codigo_Cita: citas.codigo_Cita,
