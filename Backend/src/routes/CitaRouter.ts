@@ -4,6 +4,8 @@ import express from 'express';
 const citasRouter = express.Router();
 const citasController = new citaController();
 
+citasRouter.get('/clients/:id', citasController.citasPorCliente)
 citasRouter.post('/create', citasController.crearCita);
+citasRouter.put('/:id', citasController.actualizarCita);
 
 export default citasRouter;

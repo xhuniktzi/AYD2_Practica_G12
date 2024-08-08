@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS  cliente(
     FOREIGN KEY (codigo_Genero) REFERENCES genero(codigo_Genero)
 );
 
-CREATE TABLE IF NOT EXISTS  cita(
-	codigo_Cita INT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS cita(
+	codigo_Cita INT AUTO_INCREMENT PRIMARY KEY,
     CUI_Cliente BIGINT,
     fecha DATE,
     hora TIME,
@@ -71,9 +71,9 @@ INSERT INTO cliente (CUI, nombre, apellido, telefono, correo, edad, codigo_Gener
 (2345678901234, 'Maria', 'Lopez', 5555678, 'maria.lopez@example.com', 25, 2, '2023-02-15');
 
 -- cita
-INSERT INTO cita (codigo_Cita, CUI_Cliente, fecha, hora) VALUES
-(1, 1234567890123, '2023-03-01', '10:00:00'),
-(2, 2345678901234, '2023-03-05', '14:00:00');
+INSERT INTO cita ( CUI_Cliente, fecha, hora) VALUES
+(1234567890123, '2023-03-01', '10:00:00'),
+(2345678901234, '2023-03-05', '14:00:00');
 
 -- expediente
 INSERT INTO expediente (no_Expediente, codigo_Documento, contenido_Documento, codigo_Estado) VALUES
