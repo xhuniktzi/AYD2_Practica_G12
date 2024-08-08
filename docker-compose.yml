@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+#   frontend:
+#     build:
+#       context: ./Frontend
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - backend
+
+#   backend:
+#     build:
+#       context: ./Backend
+#     ports:
+#       - "5000:5000"
+#     environment:
+#       - DB_HOST=db
+#       - DB_USER=root
+#       - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+#       - DB_NAME=${MYSQL_DATABASE}
+#     depends_on:
+#       - db
+
+  db:
+    image: mysql:latest
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./Database/BD_Bufete.sql:/docker-entrypoint-initdb.d/init.sql
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+volumes:
+  db_data:
+
+networks:
+  AyD2-Network:
+    external: true
+
+      # docker network create AyD2-Network
