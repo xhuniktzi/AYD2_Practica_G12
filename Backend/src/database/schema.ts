@@ -7,7 +7,7 @@ export const clients = mysqlTable('cliente', {
     phone: int('telefono').notNull(),
     email: varchar('correo', { length: 60 }).notNull(),
     age: int('edad').notNull(),
-    gender: int('codigo_Genero'),
+    gender: int('codigo_Genero').notNull(),
     dateJoined: date('fecha_Ingreso').notNull(),
 });
 
