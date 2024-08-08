@@ -8,7 +8,7 @@ export default class clientsController {
         const result = await db
             .select()
             .from(clients)
-            .where(eq(clients.cui, BigInt(req.params.id)));
+            .where(eq(clients.cui, req.params.id));
         res.status(200).send(result);
     }
 
