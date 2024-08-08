@@ -1,7 +1,7 @@
-import { mysqlTable, int, varchar, date, bigint} from 'drizzle-orm/mysql-core';
+import { mysqlTable, int, varchar, date} from 'drizzle-orm/mysql-core';
 
 export const clients = mysqlTable('cliente', {
-    cui: bigint('CUI', { mode: 'bigint' }).primaryKey(),
+    cui: varchar('CUI', { length: 20 }).primaryKey(),
     name: varchar('nombre', { length: 50 }).notNull(),
     lastName: varchar('apellido', { length: 50 }).notNull(),
     phone: int('telefono').notNull(),
@@ -12,10 +12,10 @@ export const clients = mysqlTable('cliente', {
 }); 
 
 export const expediente = mysqlTable('expediente', {
-    no_Expediente: int('no_Expediente').primaryKey(),
-    codigo_Documento: int('codigo_Documento'),
-    contenido_Documento: varchar('contenido_Documento', { length: 1000 }),
-    codigo_Estado: int('codigo_Estado'),
+    no_Expediente: int('no_Expediente').primaryKey().autoincrement(),
+    codigo_Documento: int('codigo_Documento').notNull(),
+    contenido_Documento: varchar('contenido_Documento', { length: 1000 }).notNull(),
+    codigo_Estado: int('codigo_Estado').notNull(),
 });
 
 export const estado = mysqlTable('estado', {

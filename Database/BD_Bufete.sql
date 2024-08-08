@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS  cliente(
 );
 
 CREATE TABLE IF NOT EXISTS  cita(
-	codigo_Cita INT PRIMARY KEY,
+	codigo_Cita INT AUTO_INCREMENT PRIMARY KEY,
     CUI_Cliente BIGINT,
     fecha DATE,
     hora TIME,
@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS  cita(
 );
 
 CREATE TABLE IF NOT EXISTS  expediente(
-	no_Expediente INTEGER PRIMARY KEY,
-    codigo_Documento  INT,
+	no_Expediente INTEGER AUTO_INCREMENT PRIMARY KEY,
+    codigo_Documento INT,
 	contenido_Documento VARCHAR(1000),
 	codigo_Estado INT,
     FOREIGN KEY (codigo_Documento) REFERENCES tipo_documento(codigo_Documento),
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS  expediente(
 );
 -- Valores iniciales
 -- rol
-INSERT INTO rol (nombre) VALUES ('Administrador'), ('Abogado'), ('Secretario');
+INSERT INTO rol (nombre) VALUES ('Asistente'), ('Abogado');
 
 -- genero
 INSERT INTO genero (nombre, abreviatura) VALUES ('Masculino', 'M'), ('Femenino', 'F');
@@ -63,7 +63,7 @@ INSERT INTO genero (nombre, abreviatura) VALUES ('Masculino', 'M'), ('Femenino',
 INSERT INTO estado (nombre) VALUES ('Pendiente'), ('En Proceso'), ('Finalizado');
 
 -- tipo_documento
-INSERT INTO tipo_documento (nombre_Tipo, extension) VALUES ('Informe', 'docx'), ('Contrato', 'pdf'), ('Carta', 'txt');
+INSERT INTO tipo_documento (nombre_Tipo, extension) VALUES ('Informe', 'docx'), ('Contrato', 'pdf');
 
 -- cliente
 INSERT INTO cliente (CUI, nombre, apellido, telefono, correo, edad, codigo_Genero, fecha_Ingreso) VALUES
@@ -76,6 +76,6 @@ INSERT INTO cita (codigo_Cita, CUI_Cliente, fecha, hora) VALUES
 (2, 2345678901234, '2023-03-05', '14:00:00');
 
 -- expediente
-INSERT INTO expediente (no_Expediente, codigo_Documento, contenido_Documento, codigo_Estado) VALUES
-(1, 1, 'Contenido del informe de Juan Perez', 1),
-(2, 2, 'Contenido del contrato de Maria Lopez', 2);
+INSERT INTO expediente (codigo_Documento, contenido_Documento, codigo_Estado) VALUES
+(1, 'Contenido del informe de Juan Perez', 1),
+(2, 'Contenido del contrato de Maria Lopez', 2);

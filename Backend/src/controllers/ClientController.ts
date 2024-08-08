@@ -32,7 +32,7 @@ export default class clientsController {
         await this.db
             .update(clients)
             .set(req.body)
-            .where(eq(clients.cui, BigInt(req.params.id)));
+            .where(eq(clients.cui, req.params.id));
         res.status(200).send('');
     }
 }
