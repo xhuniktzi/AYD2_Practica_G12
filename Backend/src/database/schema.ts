@@ -1,4 +1,4 @@
-import { mysqlTable, int, varchar, date} from 'drizzle-orm/mysql-core';
+import { mysqlTable, int, varchar, date, bigint, time } from 'drizzle-orm/mysql-core';
 
 export const clients = mysqlTable('cliente', {
     cui: varchar('CUI', { length: 20 }).primaryKey(),
@@ -7,9 +7,9 @@ export const clients = mysqlTable('cliente', {
     phone: int('telefono').notNull(),
     email: varchar('correo', { length: 60 }).notNull(),
     age: int('edad').notNull(),
-    gender: int('codigo_Genero'),
+    gender: int('codigo_Genero').notNull(),
     dateJoined: date('fecha_Ingreso').notNull(),
-}); 
+});
 
 export const expediente = mysqlTable('expediente', {
     no_Expediente: int('no_Expediente').primaryKey().autoincrement(),
@@ -28,3 +28,10 @@ export const tipo_documento = mysqlTable('tipo_documento', {
     nombre_Tipo: varchar('nombre_Tipo', { length: 255 }).notNull(),
     extension: varchar('extension', { length: 6 }).notNull(),
 });
+
+export const citas = mysqlTable('cita', {
+    codigo_Cita: int('codigo_Cita').primaryKey(),
+    CUI_Cliente: varchar('CUI', { length: 20 }),
+    fecha: date('fecha').notNull(),
+    hora: time('hora').notNull(),
+})
