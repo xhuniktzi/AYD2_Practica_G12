@@ -12,6 +12,11 @@ export default class clientsController {
         res.status(200).send(result);
     }
 
+    async getClients(req: Request, res: Response) {
+        const result = await db.select().from(clients);
+        res.status(200).send(result);
+    }
+
     async createClient(req: Request, res: Response) {
         const result = await db.insert(clients).values(req.body).$returningId();
         res.status(200).send(result);
