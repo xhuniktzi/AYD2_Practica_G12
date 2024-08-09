@@ -20,7 +20,7 @@ const AgregarExpediente = () => {
             };
             alert(JSON.stringify(expediente));
             // Realizar la solicitud POST al backend para agregar el expediente
-            const response = await axios.post('http://localhost:8000/abogado/agregarExpediente', JSON.stringify(expediente));
+            const response = await axios.post('http://localhost:8000/abogado/agregarExpediente', (expediente));
 
             // Mostrar una alerta de éxito y redirigir al dashboard
             alert('Expediente creado con éxito.');
