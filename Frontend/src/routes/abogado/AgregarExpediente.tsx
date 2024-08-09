@@ -12,16 +12,22 @@ const AgregarExpediente = () => {
     const handleAddExpediente = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
+            // Crear el objeto expediente con los datos del formulario
             const expediente = {
                 codigo_Documento: parseInt(codigoDocumento),
                 contenido_Documento: contenidoDocumento,
                 codigo_Estado: parseInt(codigoEstado),
             };
+            alert(JSON.stringify(expediente));
+            // Realizar la solicitud POST al backend para agregar el expediente
+            const response = await axios.post('http://localhost:8000/abogado/agregarExpediente', JSON.stringify(expediente));
 
-            const response = await axios.post('http://localhost:8000/agregarExpediente', expediente);
+            // Mostrar una alerta de éxito y redirigir al dashboard
             alert('Expediente creado con éxito.');
             navigate('/dashboard');
         } catch (error) {
+            // Manejo de errores
+        
             console.error('Error al crear el expediente:', error);
             alert('Hubo un problema al crear el expediente. Inténtalo de nuevo.');
         }
