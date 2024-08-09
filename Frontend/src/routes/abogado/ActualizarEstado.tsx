@@ -9,7 +9,7 @@ const ActualizarEstado = () => {
     const handleUpdateEstado = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`http://localhost:3000/actualizarEstado/${expedienteId}`, {
+            const response = await axios.put(`http://localhost:8000/abogado/actualizarEstado/${expedienteId}`, {
                 codigo_Estado: parseInt(codigoEstado),
             });
             alert('Estado del expediente actualizado con éxito.');

@@ -9,7 +9,7 @@ const VerDocumento = () => {
     const handleFetchDocumento = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.get(`http://localhost:3000/generarDocumentos/${expedienteId}`);
+            const response = await axios.get(`http://localhost:8000/abogado/generarDocumentos/${expedienteId}`);
             setDocumento(response.data.contenido);
         } catch (error) {
             console.error('Error al obtener el documento:', error);

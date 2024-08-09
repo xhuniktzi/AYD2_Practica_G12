@@ -11,13 +11,13 @@ const Login = () => {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Aquí realizarías la validación del login, pero como es una prueba, validaremos en el frontend
+        // Simulación de autenticación para ambos roles
         if (username === 'asistente' && password === '1234' && role === '1') {
             // Redirigir al Dashboard del Asistente
             navigate('/dashboard');
         } else if (username === 'abogado' && password === '1234' && role === '2') {
             // Redirigir al Dashboard del Abogado
-            navigate('/dashboard');
+            navigate('/dashboard-abogado');
         } else {
             alert('Credenciales incorrectas. Intenta de nuevo.');
         }
