@@ -11,6 +11,7 @@ app.use(json());
 app.use('/abogado', abogadoRouter);
 app.use('/client', clientRouter);
 app.use('/citas', citasRouter)
+app.use('/abogado', abogadoRouter);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
