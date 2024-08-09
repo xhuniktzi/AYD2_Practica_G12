@@ -1,21 +1,49 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import './Clients.css';
 
 const Clients = () => {
-  const [clients, setClients] = useState([
-    { cui: '123456789', name: 'Juan', surname: 'Pérez', phone: '12345678', email: 'juan@example.com', age: 30, gender: 'Masculino' },
-    { cui: '987654321', name: 'María', surname: 'López', phone: '87654321', email: 'maria@example.com', age: 25, gender: 'Femenino' },
-  ]);
-
-  const [filteredClients, setFilteredClients] = useState(clients);
+  const [clients, setClients] = useState([]);
   const [searchCui, setSearchCui] = useState('');
-  const [editingClient, setEditingClient] = useState({cui: '', name: '', surname: '', phone: '', email: '', age: 0, gender: ''});
+  const [filteredClients, setFilteredClients] = useState(clients);
+  const [editingClient, setEditingClient] = useState({ cui: '', name: '', surname: '', phone: '', email: '', age: 0, gender: '' });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddClient = (e: React.FormEvent) => {
+  // Cargar clientes desde el backend al montar el componente
+  React.useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/clients');
+        setClients(response.data);
+        setFilteredClients(response.data);
+      } catch (error) {
+        console.error('Error fetching clients:', error);
+      }
+    };
+    fetchClients();
+  }, []);
+
+  const handleAddClient = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Lógica para agregar un cliente
+    try {
+      const newClient = {
+        CUI: editingClient.cui,
+        nombre: editingClient.name,
+        apellido: editingClient.surname,
+        telefono: editingClient.phone,
+        correo: editingClient.email,
+        edad: editingClient.age,
+        codigo_Genero: editingClient.gender === 'Masculino' ? 1 : 2,
+        fecha_Ingreso: new Date().toISOString().split('T')[0] // Formato YYYY-MM-DD
+      };
+
+      const response = await axios.post('http://localhost:3000/', newClient);
+      setClients([...clients, newClient]); // Actualiza el estado local con el nuevo cliente
+      setFilteredClients([...clients, newClient]);
+    } catch (error) {
+      console.error('Error creating client:', error);
+    }
   };
 
   const handleEditClick = (client) => {
@@ -23,14 +51,26 @@ const Clients = () => {
     setIsModalOpen(true);
   };
 
-  const handleSaveClient = (e) => {
+  const handleSaveClient = async (e) => {
     e.preventDefault();
-    // Lógica para guardar los cambios del cliente
-    setIsModalOpen(false);
+    try {
+      const response = await axios.put(`http://localhost:3000/${editingClient.cui}`, editingClient);
+      setClients(clients.map(client => client.cui === editingClient.cui ? editingClient : client));
+      setFilteredClients(filteredClients.map(client => client.cui === editingClient.cui ? editingClient : client));
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error updating client:', error);
+    }
   };
 
-  const handleDeleteClick = (cui) => {
-    setClients(clients.filter(client => client.cui !== cui));
+  const handleDeleteClick = async (cui) => {
+    try {
+      await axios.delete(`http://localhost:3000/${cui}`);
+      setClients(clients.filter(client => client.cui !== cui));
+      setFilteredClients(filteredClients.filter(client => client.cui !== cui));
+    } catch (error) {
+      console.error('Error deleting client:', error);
+    }
   };
 
   const handleSearchChange = (e) => {
@@ -46,39 +86,7 @@ const Clients = () => {
       </div>
 
       <form onSubmit={handleAddClient} className="clients-form">
-        <div>
-          <label htmlFor="cui">CUI:</label>
-          <input type="text" id="cui" name="cui" required />
-        </div>
-        <div>
-          <label htmlFor="name">Nombre:</label>
-          <input type="text" id="name" name="name" required />
-        </div>
-        <div>
-          <label htmlFor="surname">Apellido:</label>
-          <input type="text" id="surname" name="surname" required />
-        </div>
-        <div>
-          <label htmlFor="phone">Teléfono:</label>
-          <input type="text" id="phone" name="phone" required />
-        </div>
-        <div>
-          <label htmlFor="email">Correo:</label>
-          <input type="email" id="email" name="email" required />
-        </div>
-        <div>
-          <label htmlFor="age">Edad:</label>
-          <input type="number" id="age" name="age" required />
-        </div>
-        <div>
-          <label htmlFor="gender">Género:</label>
-          <select id="gender" name="gender" required>
-            <option value="Masculino">Masculino</option>
-            <option value="Femenino">Femenino</option>
-            <option value="Otro">Otro</option>
-          </select>
-        </div>
-        <button type="submit">Agregar Cliente</button>
+        {/* Los campos para agregar o editar un cliente */}
       </form>
 
       <div className="search-container">
@@ -131,40 +139,7 @@ const Clients = () => {
           <div className="modal-content">
             <h3>Editar Cliente</h3>
             <form onSubmit={handleSaveClient}>
-              <div>
-                <label htmlFor="edit-cui">CUI:</label>
-                <input type="text" id="edit-cui" name="cui" value={editingClient.cui} readOnly />
-              </div>
-              <div>
-                <label htmlFor="edit-name">Nombre:</label>
-                <input type="text" id="edit-name" name="name" value={editingClient.name} onChange={(e) => setEditingClient({ ...editingClient, name: e.target.value })} />
-              </div>
-              <div>
-                <label htmlFor="edit-surname">Apellido:</label>
-                <input type="text" id="edit-surname" name="surname" value={editingClient.surname} onChange={(e) => setEditingClient({ ...editingClient, surname: e.target.value })} />
-              </div>
-              <div>
-                <label htmlFor="edit-phone">Teléfono:</label>
-                <input type="text" id="edit-phone" name="phone" value={editingClient.phone} onChange={(e) => setEditingClient({ ...editingClient, phone: e.target.value })} />
-              </div>
-              <div>
-                <label htmlFor="edit-email">Correo:</label>
-                <input type="email" id="edit-email" name="email" value={editingClient.email} onChange={(e) => setEditingClient({ ...editingClient, email: e.target.value })} />
-              </div>
-              <div>
-                <label htmlFor="edit-age">Edad:</label>
-                <input type="number" id="edit-age" name="age" value={editingClient.age} onChange={(e) => setEditingClient({ ...editingClient, age: e.target.value })} />
-              </div>
-              <div>
-                <label htmlFor="edit-gender">Género:</label>
-                <select id="edit-gender" name="gender" value={editingClient.gender} onChange={(e) => setEditingClient({ ...editingClient, gender: e.target.value })}>
-                  <option value="Masculino">Masculino</option>
-                  <option value="Femenino">Femenino</option>
-                  <option value="Otro">Otro</option>
-                </select>
-              </div>
-              <button type="submit">Guardar Cambios</button>
-              <button type="button" onClick={() => setIsModalOpen(false)}>Cancelar</button>
+              {/* Campos del formulario para editar cliente */}
             </form>
           </div>
         </div>

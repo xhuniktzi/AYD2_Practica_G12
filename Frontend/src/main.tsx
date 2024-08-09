@@ -6,6 +6,10 @@ import Dashboard from './routes/Dashboard/Dashboard';
 import Clients from './routes/Clients/Clients';
 import Citas from './routes/Citas/Citas';
 import ErrorPage from './routes/error';
+import DashboardAbogado from './routes/Dashboard/DashboardAbogado';
+import AgregarExpediente from './routes/abogado/AgregarExpediente';
+import VerDocumento from './routes/abogado/VerDocumento';
+import ActualizarEstado from './routes/abogado/ActualizarEstado';
 
 // Configuración de rutas
 const router = createBrowserRouter([
@@ -20,7 +24,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />
+    element: <DashboardAbogado />
+  },
+  {
+    path: "/agregar-expediente",
+    element: <AgregarExpediente />
+  },
+  {
+      path: "/ver-documento",
+      element: <VerDocumento />
+  },
+  {
+      path: "/actualizar-estado",
+      element: <ActualizarEstado />
   },
   {
     path: "/clients",
