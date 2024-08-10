@@ -81,4 +81,11 @@ export default class AbogadoController {
             res.status(500).send('Internal Server Error');
         }
     }
+
+    async getFiles(req: Request, res: Response) {
+        const result = await this.db
+            .select()
+            .from(expediente);
+        res.status(200).send(result);
+    }
 }
