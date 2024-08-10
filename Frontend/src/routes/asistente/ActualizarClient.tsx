@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import './ActualizarCliente.css'
 const ActualizarCliente = () => {
     const { id } = useParams();
     const [cliente, setCliente] = useState({

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-//import './VerDocumento.css';
+import './VerDocumento.css';
 
 const VerDocumento = () => {
     const [expedienteId, setExpedienteId] = useState('');
