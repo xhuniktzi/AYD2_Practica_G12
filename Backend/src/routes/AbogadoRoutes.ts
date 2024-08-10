@@ -8,5 +8,5 @@ const abogadoController = new AbogadoController(db);
 abogadoRouter.post('/agregarExpediente', (req, res) => abogadoController.agregarExpediente(req, res));
 abogadoRouter.get('/generarDocumentos/:expedienteId', (req, res) => abogadoController.generarDocumentos(req, res));
 abogadoRouter.put('/actualizarEstado/:expedienteId', (req, res) => abogadoController.actualizarEstado(req, res));
-
+abogadoRouter.get('/getFiles', (req, res) => abogadoController.getFiles(req, res));
 export default abogadoRouter;
