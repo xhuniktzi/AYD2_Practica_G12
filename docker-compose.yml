@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+    # frontend:
+    #   build:
+    #     context: ./Frontend
+    #   ports:
+    #     - "3000:3000"
+    #   depends_on:
+    #     - backend
+
+   
+      
+
+    db:
+      image: mysql:latest
+      ports:
+        - "3307:3306"
+      environment:
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+      volumes:
+        - db_data:/var/lib/mysql
+        - ./Database/BD_Bufete.sql:/docker-entrypoint-initdb.d/init.sql
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "200k"
+          max-file: "10"
+      healthcheck:
+        test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${MYSQL_ROOT_PASSWORD}"]
+        interval: 30s
+        timeout: 30s
+        retries: 5
+        start_period: 30s
+
+volumes:
+  db_data:
+
+networks:
+  AyD2-Network:
+    external:
+      true
+
+      # docker network create AyD2-Network
