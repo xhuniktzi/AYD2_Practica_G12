@@ -1,147 +1,115 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Citas.css';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Citas = () => {
-  const [appointments, setAppointments] = useState([
-    { id: 1, dpi: '1234567890', client: 'Juan Pérez', date: '2024-08-10', time: '10:00', details: 'Consulta general' },
-    { id: 2, dpi: '0987654321', client: 'María López', date: '2024-08-11', time: '14:00', details: 'Revisión dental' },
-  ]);
+  const [cita, setCita] = useState({
+    CUI: 0,
+    fecha: new Date().toISOString().split('T')[0],
+    hora: new Date().toISOString().split('T')[1].replace("Z", "").split(".")[0]
+  });
 
-  const [searchDpi, setSearchDpi] = useState('');
-  const [filteredAppointments, setFilteredAppointments] = useState(appointments);
-  const [editingAppointment, setEditingAppointment] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddAppointment = (e: React.FormEvent) => {
+  const [listaCitas, setListaCitas] = useState([]);
+
+  useEffect(() => {
+    const fetchCitas = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/citas');
+        setListaCitas(response.data);
+      } catch (error) {
+        console.error('Error al obtener los Citas:', error);
+      }
+    };
+
+    fetchCitas();
+  }, []);
+
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setCita({
+      ...cita,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleAddCita = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Lógica para agregar una cita
-  };
-
-  const handleEditClick = (appointment) => {
-    setEditingAppointment(appointment);
-    setIsModalOpen(true);
-  };
-
-  const handleSaveAppointment = (e) => {
-    e.preventDefault();
-    // Lógica para guardar los cambios de la cita
-    setIsModalOpen(false);
-  };
-
-  const handleDeleteClick = (id) => {
-    setAppointments(appointments.filter(appointment => appointment.id !== id));
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchDpi(e.target.value);
-    setFilteredAppointments(appointments.filter(appointment => appointment.dpi.includes(e.target.value)));
+    try {
+      await axios.post('http://localhost:8000/citas/create', cita);
+      alert('Cita creada con éxito.');
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Error al crear la cita:', error);
+      alert('Hubo un problema al crear la cita. Inténtalo de nuevo.');
+    }
   };
 
   return (
-    <div className="appointments-container">
-      <div className="appointments-header">
-        <h2>Agendar/Reprogramar Citas</h2>
-        <Link to="/dashboard" className="back-button">Regresar al Dashboard</Link>
-      </div>
-
-      <form onSubmit={handleAddAppointment} className="appointments-form">
-        <div>
-          <label htmlFor="client">Cliente:</label>
-          <select id="client" name="client" required>
-            <option value="">Seleccionar Cliente</option>
-            <option value="Juan Pérez">Juan Pérez</option>
-            <option value="María López">María López</option>
-            {/* Agregar más opciones de clientes según sea necesario */}
-          </select>
+    <div className="agregar-cita-container">
+      <h2>Agregar Cita</h2>
+      <form onSubmit={handleAddCita}>
+        <div className="form-group">
+          <label htmlFor="CUI">CUI:</label>
+          <input
+            type="text"
+            id="CUI"
+            name="CUI"
+            value={cita.CUI}
+            onChange={handleChange}
+            required
+          />
         </div>
-        <div>
-          <label htmlFor="date">Fecha:</label>
-          <input type="date" id="date" name="date" required />
+        <div className="form-group">
+          <label htmlFor="fecha">Fecha:</label>
+          <input
+            type="date"
+            id="fecha"
+            name="fecha"
+            value={cita.fecha}
+            onChange={handleChange}
+            required
+          />
         </div>
-        <div>
-          <label htmlFor="time">Hora:</label>
-          <input type="time" id="time" name="time" required />
+        <div className="form-group">
+          <label htmlFor="hora">Hora:</label>
+          <input
+            type="time"
+            id="hora"
+            name="hora"
+            value={cita.hora}
+            onChange={handleChange}
+            required
+          />
         </div>
-        <div>
-          <label htmlFor="details">Detalles:</label>
-          <textarea id="details" name="details" rows={3} />
-        </div>
-        <button type="submit">Agendar Cita</button>
+        <button type="submit" className="agregar-cita-button">Agregar Cita</button>
       </form>
 
-      <div className="search-container">
-        <label htmlFor="search-dpi">Buscar por DPI:</label>
-        <input
-          type="text"
-          id="search-dpi"
-          value={searchDpi}
-          onChange={handleSearchChange}
-        />
-      </div>
-
-      <div className="appointment-list">
-        <h3>Lista de Citas</h3>
+      <div className="client-list">
+        <h3>Lista de Clientes</h3>
         <table>
           <thead>
             <tr>
-              <th>DPI</th>
-              <th>Cliente</th>
-              <th>Fecha</th>
-              <th>Hora</th>
-              <th>Detalles</th>
-              <th>Acciones</th>
+              <th>Codigo</th>
+              <th>Cui</th>
+              <th>fecha</th>
+              <th>hora</th>
+             
             </tr>
           </thead>
           <tbody>
-            {filteredAppointments.map((appointment, index) => (
+            {listaCitas.map((cita, index) => (
               <tr key={index}>
-                <td>{appointment.dpi}</td>
-                <td>{appointment.client}</td>
-                <td>{appointment.date}</td>
-                <td>{appointment.time}</td>
-                <td>{appointment.details}</td>
-                <td>
-                  <button className="edit-button" onClick={() => handleEditClick(appointment)}>Reprogramar</button>
-                  <button className="delete-button" onClick={() => handleDeleteClick(appointment.id)}>Cancelar</button>
-                </td>
+                <td>{cita.codigo_Cita}</td>
+                <td>{cita.CUI}</td>
+                <td>{cita.fecha}</td>
+                <td>{cita.hora}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <h3>Reprogramar Cita</h3>
-            <form onSubmit={handleSaveAppointment}>
-              <div>
-                <label htmlFor="edit-dpi">DPI:</label>
-                <input type="text" id="edit-dpi" name="dpi" value={editingAppointment.dpi} readOnly />
-              </div>
-              <div>
-                <label htmlFor="edit-client">Cliente:</label>
-                <input type="text" id="edit-client" name="client" value={editingAppointment.client} readOnly />
-              </div>
-              <div>
-                <label htmlFor="edit-date">Fecha:</label>
-                <input type="date" id="edit-date" name="date" value={editingAppointment.date} onChange={(e) => setEditingAppointment({ ...editingAppointment, date: e.target.value })} />
-              </div>
-              <div>
-                <label htmlFor="edit-time">Hora:</label>
-                <input type="time" id="edit-time" name="time" value={editingAppointment.time} onChange={(e) => setEditingAppointment({ ...editingAppointment, time: e.target.value })} />
-              </div>
-              <div>
-                <label htmlFor="edit-details">Detalles:</label>
-                <textarea id="edit-details" name="details" rows={3} value={editingAppointment.details} onChange={(e) => setEditingAppointment({ ...editingAppointment, details: e.target.value })} />
-              </div>
-              <button type="submit">Guardar Cambios</button>
-              <button type="button" onClick={() => setIsModalOpen(false)}>Cancelar</button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-//import './AgregarCliente.css';
 
 const AgregarCliente = () => {
     const [cliente, setCliente] = useState({
-        CUI: '',
-        nombre: '',
-        apellido: '',
-        telefono: '',
-        correo: '',
-        edad: '',
-        codigoGenero: '1', // Por defecto, género masculino
-        fechaIngreso: new Date().toISOString().split('T')[0] // Fecha actual
+        cui: '',
+        name: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        age: '',
+        gender: '1', // Por defecto, género masculino
+        dateJoined: new Date().toISOString().split('T')[0] // Fecha actual
     });
     const navigate = useNavigate();
 
@@ -40,77 +39,77 @@ const AgregarCliente = () => {
             <h2>Agregar Cliente</h2>
             <form onSubmit={handleAddCliente}>
                 <div className="form-group">
-                    <label htmlFor="CUI">CUI:</label>
+                    <label htmlFor="cui">CUI:</label>
                     <input
                         type="text"
-                        id="CUI"
-                        name="CUI"
-                        value={cliente.CUI}
+                        id="cui"
+                        name="cui"
+                        value={cliente.cui}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="nombre">Nombre:</label>
+                    <label htmlFor="name">Nombre:</label>
                     <input
                         type="text"
-                        id="nombre"
-                        name="nombre"
-                        value={cliente.nombre}
+                        id="name"
+                        name="name"
+                        value={cliente.name}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="apellido">Apellido:</label>
+                    <label htmlFor="lastName">Apellido:</label>
                     <input
                         type="text"
-                        id="apellido"
-                        name="apellido"
-                        value={cliente.apellido}
+                        id="lastName"
+                        name="lastName"
+                        value={cliente.lastName}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="telefono">Teléfono:</label>
+                    <label htmlFor="phone">Teléfono:</label>
                     <input
                         type="text"
-                        id="telefono"
-                        name="telefono"
-                        value={cliente.telefono}
+                        id="phone"
+                        name="phone"
+                        value={cliente.phone}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="correo">Correo:</label>
+                    <label htmlFor="email">Correo:</label>
                     <input
                         type="email"
-                        id="correo"
-                        name="correo"
-                        value={cliente.correo}
+                        id="email"
+                        name="email"
+                        value={cliente.email}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="edad">Edad:</label>
+                    <label htmlFor="age">Edad:</label>
                     <input
                         type="number"
-                        id="edad"
-                        name="edad"
-                        value={cliente.edad}
+                        id="age"
+                        name="age"
+                        value={cliente.age}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="codigoGenero">Género:</label>
+                    <label htmlFor="gender">Género:</label>
                     <select
-                        id="codigoGenero"
-                        name="codigoGenero"
-                        value={cliente.codigoGenero}
+                        id="gender"
+                        name="gender"
+                        value={cliente.gender}
                         onChange={handleChange}
                     >
                         <option value="1">Masculino</option>

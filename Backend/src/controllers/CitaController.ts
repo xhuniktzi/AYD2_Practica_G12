@@ -8,7 +8,7 @@ export default class citaController {
     /**
      * POST /citas/create
      * @param req Request
-     * CUI_Cliente: int
+     * CUI: int
      * fecha: date
      * hora: time
      * 
@@ -47,7 +47,7 @@ export default class citaController {
      * id: int
      * @param res 
      * codigo_Cita: int
-     * CUI_Cliente: str
+     * CUI: str
      * fecha: datetime
      * hora: time
      */
@@ -56,22 +56,34 @@ export default class citaController {
 
         const result = await db.select({
             codigo_Cita: citas.codigo_Cita,
-            CUI_Cliente: citas.CUI_Cliente,
+            CUI: citas.CUI,
             fecha: citas.fecha,
             hora: citas.hora
         })
             .from(citas)
-            .where(eq(citas.CUI_Cliente, id));
+            .where(eq(citas.CUI, id));
 
         const parsed_result = result.map(c => {
             return {
                 codigo_Cita: c.codigo_Cita,
-                CUI_Cliente: c.CUI_Cliente.toString(),
+                CUI: c.CUI.toString(),
                 fecha: c.fecha,
                 hora: c.hora
             }
         })
 
         res.status(200).send(parsed_result);
+    }
+
+    async todasLasCitas(req: Request, res: Response){
+        const result = await db.select({
+            codigo_Cita: citas.codigo_Cita,
+            CUI: citas.CUI,
+            fecha: citas.fecha,
+            hora: citas.hora
+        })
+            .from(citas)
+
+        res.status(200).send(result)
     }
 }
