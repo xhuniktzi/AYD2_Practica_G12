@@ -10,6 +10,7 @@ const app = express();
 app.use(cors());
 app.use(json());
 
+app.use('/abogado', abogadoRouter);
 app.use('/client', clientRouter);
 app.use('/citas', citasRouter)
 app.use('/abogado', abogadoRouter);
