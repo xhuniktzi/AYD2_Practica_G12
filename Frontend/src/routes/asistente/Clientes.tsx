@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import './Clientes.css'
 const Clientes = () => {
     const [clientes, setClientes] = useState([]);
     const [searchCui, setSearchCui] = useState('');
