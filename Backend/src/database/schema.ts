@@ -31,7 +31,7 @@ export const tipo_documento = mysqlTable('tipo_documento', {
 
 export const citas = mysqlTable('cita', {
     codigo_Cita: int('codigo_Cita').primaryKey().autoincrement(),
-    CUI_Cliente: varchar('CUI', { length: 20 }),
+    CUI: varchar('CUI', { length: 20 }),
     fecha: date('fecha').notNull(),
     hora: time('hora').notNull(),
 })
